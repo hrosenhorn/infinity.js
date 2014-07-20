@@ -20,24 +20,9 @@ function Infinity(stage, gameContext) {
     stage.addChild(this.player);
 }
 
-Infinity.prototype.setViewportX = function(viewportX) {
-    this.viewportX = viewportX;
-
-    this.background.setViewportX(viewportX);
-};
-
-Infinity.prototype.getViewportX = function() {
-    return this.viewportX;
-};
-
-Infinity.prototype.moveViewportXBy = function(units) {
-    var newViewportX = this.viewportX + units;
-    this.setViewportX(newViewportX);
-};
-
 Infinity.prototype.update = function() {
-    //this.moveViewportXBy(15);
     this.player.update();
+    this.background.move(this.player.heading.x * this.player.speed, this.player.heading.y * this.player.speed);
 };
 
 module.exports = Infinity;

@@ -14,13 +14,17 @@ function Background(gameContext) {
 Background.constructor = Background;
 Background.prototype = Object.create(PIXI.TilingSprite.prototype);
 
-Background.DELTA_X = 0.064;
+Background.DELTA = 0.164;
+
+Background.prototype.move = function (deltaX, deltaY) {
+    this.tilePosition.x -= deltaX;
+    this.tilePosition.y -= deltaY;
+};
 
 Background.prototype.setViewportX = function(newViewportX) {
     var distanceTravelled = newViewportX - this.viewportX;
     this.viewportX = newViewportX;
     this.tilePosition.x -= (distanceTravelled * Background.DELTA_X);
 };
-
 
 module.exports = Background;

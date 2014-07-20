@@ -36,24 +36,26 @@ Player.MAX_SPEED = 7;
 //http://math.stackexchange.com/questions/180874/convert-angle-radians-to-a-heading-vector
 Player.BASE_TEXTURE_ROTATION = 90 * (Math.PI/180);
 
+Player.MOVEMENT_ILLUSION_WINDOW = 50;
+
 Player.prototype.move = function (deltaX, deltaY) {
     this.position.x += deltaX;
     this.position.y += deltaY;
 
-    if (this.position.x < 0) {
-        this.position.x = 0
+    if (this.position.x < Player.MOVEMENT_ILLUSION_WINDOW) {
+        this.position.x = Player.MOVEMENT_ILLUSION_WINDOW
     }
 
-    if (this.position.y < 0) {
-        this.position.y = 0
+    if (this.position.y < Player.MOVEMENT_ILLUSION_WINDOW) {
+        this.position.y = Player.MOVEMENT_ILLUSION_WINDOW
     }
 
-    if (this.position.x > this.gameContext.windowWidth) {
-        this.position.x = this.gameContext.windowWidth
+    if (this.position.x > this.gameContext.windowWidth - Player.MOVEMENT_ILLUSION_WINDOW) {
+        this.position.x = this.gameContext.windowWidth - Player.MOVEMENT_ILLUSION_WINDOW
     }
 
-    if (this.position.y > this.gameContext.windowHeight) {
-        this.position.y = this.gameContext.windowHeight
+    if (this.position.y > this.gameContext.windowHeight - Player.MOVEMENT_ILLUSION_WINDOW) {
+        this.position.y = this.gameContext.windowHeight - Player.MOVEMENT_ILLUSION_WINDOW;
     }
 };
 
@@ -93,6 +95,10 @@ Player.prototype.rotateLeft = function (isFinalRepeat) {
 
 Player.prototype.rotateRight = function (isFinalRepeat) {
     this.rotation += 0.1;
+};
+
+Player.prototype.getSpeed = function () {
+    return this.speed;
 };
 
 Player.prototype.update = function () {
