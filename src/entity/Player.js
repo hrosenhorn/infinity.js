@@ -1,17 +1,18 @@
 var PIXI = require("../../thirdparty/pixi.dev");
 var Obstacle = require("../Obstacle");
 var Vector = require("../Vector");
+var ShipExhaust = require("./ShipExhaust");
 
 
 function Player(gameContext) {
     this.gameContext = gameContext;
 
     Obstacle.call(this, gameContext, [
-        PIXI.Texture.fromImage("assets/player.png")
+        PIXI.Texture.fromImage("assets/player/ship.png")
     ]);
 
-    this.scale.x = 0.4;
-    this.scale.y = 0.4;
+    this.scale.x = 0.3;
+    this.scale.y = 0.3;
     this.position.x = this.gameContext.windowWidth / 2;
     this.position.y = this.gameContext.windowHeight / 2;
     this.anchor.x = 0.5;
@@ -20,6 +21,10 @@ function Player(gameContext) {
     this.rotation = Player.BASE_TEXTURE_ROTATION;
     this.heading = new Vector(0, 0);
     this.speed = 0;
+
+    this.exhaust = new ShipExhaust();
+    this.exhaust.position.x = -22;
+    this.exhaust.position.y = 25;
 }
 
 Player.constructor = Player;
@@ -27,7 +32,7 @@ Player.prototype = Object.create(Obstacle.prototype);
 
 Player.ACCELERATION = 1.5;
 Player.FRICTION = -0.15;
-Player.MAX_SPEED = 10;
+Player.MAX_SPEED = 7;
 //http://math.stackexchange.com/questions/180874/convert-angle-radians-to-a-heading-vector
 Player.BASE_TEXTURE_ROTATION = 90 * (Math.PI/180);
 
@@ -64,33 +69,36 @@ Player.prototype.updateSpeed = function (delta) {
     }
 };
 
-Player.prototype.accelerate = function () {
+Player.prototype.accelerate = function (isFinalRepeat) {
     this.updateSpeed(Player.ACCELERATION);
+
+    if (!this.exhaust.stage) {
+        this.addChild(this.exhaust);
+    }
+
+    if (isFinalRepeat) {
+        if (this.exhaust.stage) {
+            this.removeChild(this.exhaust);
+        }
+    }
 };
 
-Player.prototype.decelerate = function () {
+Player.prototype.decelerate = function (isFinalRepeat) {
     this.updateSpeed(-Player.ACCELERATION);
 };
 
-Player.prototype.rotateLeft = function () {
+Player.prototype.rotateLeft = function (isFinalRepeat) {
     this.rotation -= 0.1;
 };
 
-Player.prototype.rotateRight = function () {
+Player.prototype.rotateRight = function (isFinalRepeat) {
     this.rotation += 0.1;
 };
 
 Player.prototype.update = function () {
     this.updateSpeed(Player.FRICTION);
-
-    //console.log("rotation is", this.rotation);
     this.heading.update(this.rotation - Player.BASE_TEXTURE_ROTATION);
-
-    if (this.speed > 0) {
-        console.log("Moving in heading", this.heading.x, this.heading.y);
-    }
     this.move(this.heading.x * this.speed, this.heading.y * this.speed);
-
 };
 
 module.exports = Player;

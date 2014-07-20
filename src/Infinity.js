@@ -1,7 +1,6 @@
 var Background = require("./Background");
 var Player = require("./entity/Player");
 var KeyHandler = require("./KeyHandler");
-//var ObstacleManager = require("./ObstacleManager");
 
 function Infinity(stage, gameContext) {
     this.gameContext = gameContext;
@@ -10,9 +9,6 @@ function Infinity(stage, gameContext) {
     this.keyHandler = new KeyHandler();
     this.keyHandler.install();
     this.player = new Player(this.gameContext);
-
-    //this.obstacleManager = new ObstacleManager(this.gameContext, this.player);
-
     this.background = new Background(this.gameContext);
 
     this.keyHandler.subscribe(KeyHandler.W, this.player.accelerate.bind(this.player), true);
@@ -22,7 +18,6 @@ function Infinity(stage, gameContext) {
 
     stage.addChild(this.background);
     stage.addChild(this.player);
-    //stage.addChild(this.obstacleManager);
 }
 
 Infinity.prototype.setViewportX = function(viewportX) {
