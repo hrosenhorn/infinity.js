@@ -19,24 +19,25 @@ KeyHandler.prototype.onKeydown = function (event) {
     var self = this;
     if (!this.pressed[event.keyCode]) {
         this.pressed[event.keyCode] = setInterval(function () {
-            self.handleRepeat(event.keyCode)
+            self.sendRepeat(event.keyCode, false)
         }, KeyHandler.REPEAT_RATE);
     }
 };
 
-KeyHandler.prototype.handleRepeat = function (keyCode) {
+KeyHandler.prototype.sendRepeat = function (keyCode, isFinal) {
     var entries = this.subscribers[keyCode];
     if (!entries) {
         return;
     }
 
     _.each(entries, function (entry) {
-        entry.cbMethod();
+        entry.cbMethod(isFinal);
     });
 };
 
 KeyHandler.prototype.onKeyup = function (event) {
     clearInterval(this.pressed[event.keyCode]);
+    this.sendRepeat(event.keyCode, true)
     delete this.pressed[event.keyCode];
 };
 
