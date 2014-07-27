@@ -45,7 +45,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 20 })
-        //new webpack.optimize.UglifyJsPlugin()
+
     ],
     fakeUpdateVersion: 0
 };
