@@ -26,7 +26,9 @@ Main.prototype.loadAssets = function() {
     var assetsToLoad = [
         this.gameContext.backgroundImage,
         "assets/player/ship.png",
-        "assets/player/exhaust.json"
+        "assets/player/exhaust.json",
+        "assets/star_gold.png",
+        "assets/shield3.png"
     ];
     loader = new PIXI.AssetLoader(assetsToLoad);
     loader.onComplete = this.assetsLoaded.bind(this);

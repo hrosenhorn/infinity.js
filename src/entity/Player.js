@@ -13,8 +13,8 @@ function Player(gameContext) {
 
     this.scale.x = 0.3;
     this.scale.y = 0.3;
-    this.position.x = this.gameContext.windowWidth / 2;
-    this.position.y = this.gameContext.windowHeight / 2;
+    this.position.x = this.gameContext.windowWidth / 4;
+    this.position.y = this.gameContext.windowHeight / 4;
     this.anchor.x = 0.5;
     this.anchor.y = 0.5;
     this.setActive();
